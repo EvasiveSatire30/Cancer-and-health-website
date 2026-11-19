@@ -107,4 +107,13 @@ The listed WHO sources provide general early-diagnosis context, not a Zimbabwe-s
 
 After a result, users can enter a Zimbabwe city to rank the currently listed facilities by approximate straight-line distance from that city's centre. City matching happens in the browser; it is not sent to the server or saved. The editable locations and fictional sample oncologist profiles are in `medical_facilities.json`. The facilities are real map-listed institutions, but this directory does not verify oncology services, availability, referrals, or opening hours. Sample oncologists are fictional placeholders and are not affiliated with any listed facility. Facility location data is attributed to [OpenStreetMap contributors](https://www.openstreetmap.org/copyright); distances are not driving distances. Users should contact a facility before travelling.
 
+## Deploying on Render
+
+Create a Python Web Service from the `main` branch (not a Static Site). Use:
+
+- Build command: `pip install -r requirements-render.txt`
+- Start command: `gunicorn --bind 0.0.0.0:$PORT app:app`
+
+`.python-version` keeps the deployment on Python 3.13, matching the tested local environment. Render provides managed HTTPS and redirects HTTP requests. Free instances sleep when idle and have limited memory; use this deployment for a demo, not a production medical service.
+
 ---
