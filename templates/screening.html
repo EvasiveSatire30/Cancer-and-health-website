@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf9">
+    <title>Cancer symptom check | CareGuide</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/botfav.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a class="skip-link" href="#screeningForm">Skip to questionnaire</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="CareGuide home">
+                <span class="brand-mark" aria-hidden="true">+</span>
+                <span>CareGuide</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainNavigation" aria-label="Open navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="site-nav" id="mainNavigation" aria-label="Main navigation">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/screening" aria-current="page">Cancer symptom check</a>
+                <a class="nav-link" href="/#regular-symptoms">Regular symptom checker</a>
+                <a class="nav-link" href="/about">About</a>
+                <a class="nav-link nav-link--admin" href="/login">Admin login</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="screening-shell" id="main">
+        <header class="screening-heading">
+            <a class="back-link" href="/">← Back to home</a>
+            <p class="eyebrow">Private, optional questionnaire</p>
+            <h1>Cancer symptom and history check</h1>
+            <p>Use this form to organize information for a healthcare visit. It does not estimate cancer risk, identify a cancer, or replace a clinical assessment.</p>
+        </header>
+
+        <div class="workflow-progress" aria-label="Screening progress">
+            <p id="workflowStatus" role="status" aria-live="polite">Step 1 of 5: Symptoms</p>
+            <ol>
+                <li aria-current="step">Symptoms</li>
+                <li>Health history</li>
+                <li>Result</li>
+                <li>Cancer information</li>
+                <li>Facilities</li>
+            </ol>
+        </div>
+
+        <div class="screening-layout" id="screeningLayout">
+            <form class="screening-form" id="screeningForm">
+                <section class="workflow-panel" id="screeningStepSymptoms" tabindex="-1">
+                    <fieldset class="screening-fieldset">
+                        <legend>Symptoms</legend>
+                        <p class="fieldset-help">Select any changes you have noticed. These symptoms can have many causes.</p>
+                        <div class="symptom-grid">
+                            {% for symptom in rules.symptoms %}
+                            <label class="choice-card">
+                                <input type="checkbox" name="symptoms" value="{{ symptom.id }}">
+                                <span>{{ symptom.label }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="screening-fieldset urgent-question">
+                        <legend>Urgent symptoms</legend>
+                        <p class="fieldset-help">{{ rules.urgent_question }}</p>
+                        <div class="radio-row">
+                            <label><input type="radio" name="urgent_now" value="true" required> Yes</label>
+                            <label><input type="radio" name="urgent_now" value="false" required> No</label>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-actions">
+                        <button class="primary-button" id="continueToHistory" type="button">Continue to health history</button>
+                        <button class="secondary-button clear-answers" type="button">Clear answers</button>
+                    </div>
+                </section>
+
+                <section class="workflow-panel" id="screeningStepHistory" tabindex="-1" hidden>
+                    <fieldset class="screening-fieldset">
+                        <legend>Optional health history</legend>
+                        <p class="fieldset-help">These answers are not used to calculate a cancer-risk score. Skip any question you do not want to answer.</p>
+                        <div class="risk-grid">
+                            <label class="form-field">
+                                <span>Age</span>
+                                <input name="age" type="number" min="0" max="120" step="1" inputmode="numeric" placeholder="Optional">
+                            </label>
+
+                            {% for field, definition in rules.risk_factors.items() %}
+                            <label class="form-field">
+                                <span>{{ definition.label }}</span>
+                                <select name="{{ field }}">
+                                    <option value="">Prefer not to answer</option>
+                                    {% for option in definition.options %}
+                                    <option value="{{ option.value }}">{{ option.label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+
+                    <div class="form-privacy">
+                        <strong>Privacy:</strong> {{ rules.messages.privacy }}
+                    </div>
+                    <div class="form-error" id="formError" role="alert" tabindex="-1" hidden></div>
+                    <div class="form-actions">
+                        <button class="secondary-button" id="backToSymptoms" type="button">Back to symptoms</button>
+                        <button class="secondary-button" id="skipHistory" type="button">Skip and see result</button>
+                        <button class="primary-button" type="submit">See recommended next step</button>
+                        <button class="secondary-button clear-answers" type="button">Clear answers</button>
+                    </div>
+                </section>
+            </form>
+
+            <aside class="screening-side-note" id="screeningSideNote">
+                <div class="safety-icon" aria-hidden="true">i</div>
+                <h2>Get symptoms checked</h2>
+                <p>WHO guidance emphasizes noticing abnormal findings and seeking medical advice. Only a qualified health worker can assess your symptoms and decide whether tests are appropriate.</p>
+                <p>This page provides general WHO information, not a Zimbabwe-specific screening schedule. Ask a local health worker about services available in your area.</p>
+            </aside>
+        </div>
+
+        <section class="screening-result workflow-panel" id="screeningResult" aria-labelledby="resultTitle" aria-live="polite" hidden tabindex="-1">
+            <div class="result-label" id="resultAction"></div>
+            <h2 id="resultTitle">Recommended next step</h2>
+            <p class="result-next-step" id="resultNextStep"></p>
+            <div id="selectedSymptomsBlock" hidden>
+                <h3>Symptoms selected</h3>
+                <ul id="selectedSymptoms"></ul>
+            </div>
+            <p id="discussionPrompt"></p>
+            <p class="result-disclaimer"><strong>Important:</strong> <span id="resultDisclaimer"></span></p>
+            <p class="result-privacy"><strong>Privacy:</strong> <span id="resultPrivacy"></span></p>
+            <p class="result-limitation">This tool does not calculate cancer risk or match your answers to a cancer type. Bring your concerns to a qualified health worker.</p>
+            <div class="workflow-actions">
+                <button class="secondary-button" id="backToHistory" type="button">Back to answers</button>
+                <button class="primary-button" id="showCancerInformation" type="button">Continue to cancer information</button>
+                <button class="secondary-button" id="showFacilitiesFromResult" type="button">Skip to facilities</button>
+                <button class="secondary-button clear-answers" type="button">Start over</button>
+            </div>
+        </section>
+
+        <section class="screening-result workflow-panel" id="cancerInformationStep" aria-labelledby="generalCancerEducationTitle" hidden tabindex="-1">
+            <section class="general-cancer-education" aria-labelledby="generalCancerEducationTitle">
+                <h2 id="generalCancerEducationTitle">Cancer types: general information</h2>
+                <p>{{ rules.general_cancer_education.intro }}</p>
+                <ul>
+                    {% for cancer_type in rules.general_cancer_education.types %}
+                    <li>{{ cancer_type }}</li>
+                    {% endfor %}
+                </ul>
+                <p class="education-disclaimer">{{ rules.general_cancer_education.disclaimer }}</p>
+                <p class="education-source">
+                    Source:
+                    <a href="{{ rules.general_cancer_education.source.url }}" target="_blank" rel="noopener noreferrer">
+                        {{ rules.general_cancer_education.source.organization }} — {{ rules.general_cancer_education.source.title }}
+                    </a>
+                </p>
+            </section>
+            <div class="result-sources">
+                <h3>Guidance sources</h3>
+                <ul id="resultSources"></ul>
+            </div>
+            <div class="workflow-actions">
+                <button class="secondary-button" id="backToResult" type="button">Back to result</button>
+                <button class="primary-button" id="showFacilities" type="button">Continue to nearby facilities</button>
+                <button class="secondary-button clear-answers" type="button">Start over</button>
+            </div>
+        </section>
+
+        <section class="screening-result workflow-panel" id="facilityStep" aria-labelledby="facilityLookupTitle" hidden tabindex="-1">
+            <section class="facility-lookup" aria-labelledby="facilityLookupTitle">
+                <h2 id="facilityLookupTitle">Find nearby medical facilities</h2>
+                <p>Enter a city in Zimbabwe to see the closest facilities in this directory. Your city is checked in this browser and is not sent with your screening answers.</p>
+                <div class="facility-notice">
+                    <strong>Before travelling:</strong> {{ facility_directory.notice }}
+                    If your result recommends urgent care, seek care now rather than waiting to use this directory.
+                </div>
+                <form id="facilitySearchForm" class="facility-search">
+                    <label class="form-field" for="facilityCity">
+                        <span>Current city</span>
+                        <input id="facilityCity" name="city" type="text" list="supportedCities" autocomplete="off" placeholder="For example, Harare" required>
+                        <datalist id="supportedCities"></datalist>
+                    </label>
+                    <button class="primary-button" type="submit">Find facilities</button>
+                </form>
+                <p id="facilitySearchStatus" class="facility-search-status" role="status" aria-live="polite"></p>
+                <div id="facilityResults" class="facility-results"></div>
+                <div class="demo-oncologists">
+                    <h3>Fictional demo oncologist profiles</h3>
+                    <p>These are placeholders for interface testing only. They are not real clinicians and are not affiliated with the facilities listed here.</p>
+                    <ul id="demoOncologists"></ul>
+                </div>
+                <p class="facility-attribution">Location data: <a href="{{ facility_directory.location_source.url }}" target="_blank" rel="noopener noreferrer">{{ facility_directory.location_source.organization }}</a>.</p>
+            </section>
+            <div class="workflow-actions">
+                <button class="secondary-button" id="backToCancerInformation" type="button">Back to cancer information</button>
+                <button class="secondary-button clear-answers" type="button">Start over</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <a class="brand brand--footer" href="/">CareGuide</a>
+            <p>General health information for educational use.</p>
+            <a href="/about">About this project</a>
+        </div>
+    </footer>
+    <script id="facilityDirectoryData" type="application/json">{{ facility_directory|tojson }}</script>
+    <script src="{{ url_for('static', filename='screening.js') }}" defer></script>
+</body>
+</html>

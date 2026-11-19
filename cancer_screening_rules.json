@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "scope": "General early-diagnosis information. This is not a Zimbabwe-specific screening schedule.",
+  "sources": [
+    {
+      "organization": "World Health Organization",
+      "title": "Cancer fact sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/cancer",
+      "published": "2026-07-03",
+      "use": "Supports awareness of abnormal findings and seeking medical advice; it does not define a universal symptom-based cancer risk score."
+    },
+    {
+      "organization": "World Health Organization",
+      "title": "Guide to cancer early diagnosis",
+      "url": "https://www.who.int/publications/i/item/9789241511940",
+      "published": "2017-02-16",
+      "use": "General early-diagnosis guidance; local screening and referral pathways should be confirmed with a qualified health worker."
+    }
+  ],
+  "general_cancer_education": {
+    "intro": "The World Health Organization reports lung, breast, colorectal, and prostate cancers among the most common cancers worldwide. The most common cancers vary between countries. This general information is not based on your answers and is not an estimate of what you may have.",
+    "types": [
+      "Lung cancer",
+      "Breast cancer",
+      "Colorectal cancer (colon and rectum)",
+      "Prostate cancer"
+    ],
+    "disclaimer": "The symptoms and health-history answers above are not matched to these cancer types. This list does not mean that you have any of them. Only a qualified health worker can assess your symptoms.",
+    "source": {
+      "organization": "World Health Organization",
+      "title": "Cancer fact sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/cancer",
+      "published": "2026-07-03"
+    }
+  },
+  "symptoms": [
+    {
+      "id": "unexplained_weight_loss",
+      "label": "Unexplained weight loss"
+    },
+    {
+      "id": "persistent_fatigue",
+      "label": "Persistent fatigue"
+    },
+    {
+      "id": "lump_or_swelling",
+      "label": "A new or persistent lump or swelling"
+    },
+    {
+      "id": "unusual_bleeding",
+      "label": "Unusual bleeding or bruising"
+    },
+    {
+      "id": "mole_or_skin_change",
+      "label": "A change in a mole or other skin change that concerns you"
+    },
+    {
+      "id": "persistent_cough",
+      "label": "A persistent cough or hoarseness"
+    },
+    {
+      "id": "bowel_change",
+      "label": "A persistent change in bowel habits"
+    },
+    {
+      "id": "bladder_change",
+      "label": "A persistent change in bladder habits"
+    }
+  ],
+  "risk_factors": {
+    "sex": {
+      "label": "Sex (optional)",
+      "options": [
+        {
+          "value": "female",
+          "label": "Female"
+        },
+        {
+          "value": "male",
+          "label": "Male"
+        },
+        {
+          "value": "intersex",
+          "label": "Intersex"
+        },
+        {
+          "value": "prefer_not_to_say",
+          "label": "Prefer not to say"
+        }
+      ]
+    },
+    "smoking": {
+      "label": "Tobacco use (optional)",
+      "options": [
+        {
+          "value": "never",
+          "label": "Never"
+        },
+        {
+          "value": "former",
+          "label": "Former"
+        },
+        {
+          "value": "current",
+          "label": "Current"
+        },
+        {
+          "value": "prefer_not_to_say",
+          "label": "Prefer not to say"
+        }
+      ]
+    },
+    "alcohol": {
+      "label": "Alcohol use (optional)",
+      "options": [
+        {
+          "value": "never",
+          "label": "Never"
+        },
+        {
+          "value": "occasional",
+          "label": "Occasional"
+        },
+        {
+          "value": "regular",
+          "label": "Regular"
+        },
+        {
+          "value": "prefer_not_to_say",
+          "label": "Prefer not to say"
+        }
+      ]
+    },
+    "family_history": {
+      "label": "Close family history of cancer (optional)",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        },
+        {
+          "value": "unsure",
+          "label": "Unsure"
+        },
+        {
+          "value": "prefer_not_to_say",
+          "label": "Prefer not to say"
+        }
+      ]
+    },
+    "previous_diagnosis": {
+      "label": "Previous cancer diagnosis or other significant diagnosis (optional)",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        },
+        {
+          "value": "unsure",
+          "label": "Unsure"
+        },
+        {
+          "value": "prefer_not_to_say",
+          "label": "Prefer not to say"
+        }
+      ]
+    }
+  },
+  "messages": {
+    "urgent": "You indicated that symptoms are severe, sudden, or rapidly worsening. Please seek urgent in-person medical care now or contact your local emergency service. This tool cannot assess emergencies.",
+    "symptoms": "Please arrange an assessment with a qualified health worker to discuss the symptoms you selected. Do not ignore symptoms that are persistent, unexplained, or worsening.",
+    "no_symptoms": "No warning signs were selected. This does not rule out cancer. Ask a qualified local health worker which screening options, if any, are appropriate and available for you.",
+    "discussion": "If you chose to share age, sex, tobacco or alcohol use, family history, or previous diagnoses, consider discussing that context with the health worker.",
+    "disclaimer": "This is not a medical diagnosis or a cancer-risk score. It cannot rule cancer in or out. A qualified health worker must assess your symptoms and decide whether tests or screening are appropriate.",
+    "privacy": "Your answers are processed to generate this result and are not saved by this application. The hosting provider may maintain separate technical logs. Do not use this form for an emergency."
+  },
+  "urgent_question": "Are your symptoms severe, sudden, or rapidly worsening right now?"
+}

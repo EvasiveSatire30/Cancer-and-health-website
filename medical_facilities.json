@@ -1,0 +1,145 @@
+{
+  "country": "Zimbabwe",
+  "notice": "These are real medical facilities listed on OpenStreetMap. This directory does not confirm oncology services, referrals, opening hours, or appointment availability. Contact a facility before travelling. Distances are approximate straight-line estimates from city centres, not road distances. Your city is matched in this browser and is not sent to the application.",
+  "city_centres": [
+    {
+      "name": "Harare",
+      "aliases": ["harare"],
+      "latitude": -17.831773,
+      "longitude": 31.045686
+    },
+    {
+      "name": "Bulawayo",
+      "aliases": ["bulawayo"],
+      "latitude": -20.1560599,
+      "longitude": 28.5887063
+    },
+    {
+      "name": "Mutare",
+      "aliases": ["mutare"],
+      "latitude": -18.974656,
+      "longitude": 32.670473
+    },
+    {
+      "name": "Gweru",
+      "aliases": ["gweru"],
+      "latitude": -19.4616316,
+      "longitude": 29.8205953
+    },
+    {
+      "name": "Masvingo",
+      "aliases": ["masvingo"],
+      "latitude": -20.0720142,
+      "longitude": 30.8341936
+    },
+    {
+      "name": "Chinhoyi",
+      "aliases": ["chinhoyi"],
+      "latitude": -17.3615308,
+      "longitude": 30.1929353
+    },
+    {
+      "name": "Kwekwe",
+      "aliases": ["kwekwe"],
+      "latitude": -18.9284366,
+      "longitude": 29.8140035
+    },
+    {
+      "name": "Bindura",
+      "aliases": ["bindura"],
+      "latitude": -17.2989727,
+      "longitude": 31.3299701
+    },
+    {
+      "name": "Marondera",
+      "aliases": ["marondera"],
+      "latitude": -18.190098,
+      "longitude": 31.545542
+    },
+    {
+      "name": "Chitungwiza",
+      "aliases": ["chitungwiza"],
+      "latitude": -18.0143462,
+      "longitude": 31.0726737
+    }
+  ],
+  "facilities": [
+    {
+      "name": "Parirenyatwa Hospital",
+      "city": "Harare",
+      "latitude": -17.8118442,
+      "longitude": 31.0429416,
+      "map_url": "https://www.openstreetmap.org/?mlat=-17.8118442&mlon=31.0429416#map=16/-17.8118442/31.0429416"
+    },
+    {
+      "name": "Harare Central Hospital",
+      "city": "Harare",
+      "latitude": -17.861056,
+      "longitude": 31.0132028,
+      "map_url": "https://www.openstreetmap.org/?mlat=-17.861056&mlon=31.0132028#map=16/-17.861056/31.0132028"
+    },
+    {
+      "name": "Mpilo Central Hospital",
+      "city": "Bulawayo",
+      "latitude": -20.1269837,
+      "longitude": 28.571278,
+      "map_url": "https://www.openstreetmap.org/?mlat=-20.1269837&mlon=28.571278#map=16/-20.1269837/28.571278"
+    },
+    {
+      "name": "United Bulawayo Hospitals",
+      "city": "Bulawayo",
+      "latitude": -20.1667226,
+      "longitude": 28.6169193,
+      "map_url": "https://www.openstreetmap.org/?mlat=-20.1667226&mlon=28.6169193#map=16/-20.1667226/28.6169193"
+    },
+    {
+      "name": "Mater Dei Hospital",
+      "city": "Bulawayo",
+      "latitude": -20.1820897,
+      "longitude": 28.5970884,
+      "map_url": "https://www.openstreetmap.org/?mlat=-20.1820897&mlon=28.5970884#map=16/-20.1820897/28.5970884"
+    },
+    {
+      "name": "Mutare Provincial Hospital",
+      "city": "Mutare",
+      "latitude": -18.964298,
+      "longitude": 32.6629368,
+      "map_url": "https://www.openstreetmap.org/?mlat=-18.964298&mlon=32.6629368#map=16/-18.964298/32.6629368"
+    },
+    {
+      "name": "Gweru General Hospital",
+      "city": "Gweru",
+      "latitude": -19.4613154,
+      "longitude": 29.8299257,
+      "map_url": "https://www.openstreetmap.org/?mlat=-19.4613154&mlon=29.8299257#map=16/-19.4613154/29.8299257"
+    },
+    {
+      "name": "Masvingo General Hospital",
+      "city": "Masvingo",
+      "latitude": -20.0593292,
+      "longitude": 30.8273805,
+      "map_url": "https://www.openstreetmap.org/?mlat=-20.0593292&mlon=30.8273805#map=16/-20.0593292/30.8273805"
+    },
+    {
+      "name": "Chinhoyi Provincial Hospital",
+      "city": "Chinhoyi",
+      "latitude": -17.3604541,
+      "longitude": 30.2085355,
+      "map_url": "https://www.openstreetmap.org/?mlat=-17.3604541&mlon=30.2085355#map=16/-17.3604541/30.2085355"
+    }
+  ],
+  "demo_oncologists": [
+    {
+      "name": "Dr. Demo Oncologist A",
+      "note": "Fictional placeholder only; not a real clinician and not affiliated with any listed facility."
+    },
+    {
+      "name": "Dr. Demo Oncologist B",
+      "note": "Fictional placeholder only; not a real clinician and not affiliated with any listed facility."
+    }
+  ],
+  "location_source": {
+    "organization": "OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

@@ -1,0 +1,6 @@
+geocoder
+flask
+numpy
+pandas
+torch
+nltk

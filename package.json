@@ -1,0 +1,49 @@
+{
+  "name": "cancercare-zimbabwe",
+  "version": "1.0.0",
+  "description": "AI-Powered Cancer Awareness & Patient Support Platform for Zimbabwe",
+  "type": "module",
+  "main": "src/server/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "node --watch src/server/index.js",
+    "dev:client": "vite --config src/client/vite.config.js",
+    "build": "vite build --config src/client/vite.config.js",
+    "start": "node src/server/index.js",
+    "seed": "node src/server/db/seed.js",
+    "import:verified": "node src/server/db/import_verified_data.js",
+    "import:expand": "node src/server/db/import_expansion.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "node --check src/server/index.js && node --check src/server/db/seed.js && node --check src/server/db/database.js",
+    "health": "curl http://localhost:3000/api/health"
+  },
+  "dependencies": {
+    "@google/genai": "^3.6.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^1.0.0",
+    "pino": "^9.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^6.28.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
+    "concurrently": "^9.1.0",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
