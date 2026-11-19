@@ -100,6 +100,7 @@ class CancerScreeningRouteTests(unittest.TestCase):
         self.assertIn('id="cancerInformationStep"', html)
         self.assertIn('id="facilityStep"', html)
         self.assertIn("no-store", response.headers["Cache-Control"])
+        self.assertIn('href="/articles?category=Warning%20Signs"', html)
 
     def test_screening_script_is_not_cached(self):
         response = self.client.get("/static/screening.js")

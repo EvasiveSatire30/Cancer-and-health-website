@@ -1,0 +1,90 @@
+{% extends "articles_base.html" %}
+
+{% set page_title = article.title ~ " | CareGuide" %}
+{% set meta_description = article.summary %}
+
+{% block article_content %}
+    <p class="article-breadcrumb"><a href="{{ url_for('articles_index') }}">Articles</a> <span aria-hidden="true">/</span> {{ article.category }}</p>
+    <aside class="article-disclaimer" role="note" aria-label="Medical disclaimer">
+        <strong>For education only — not medical advice.</strong>
+        <span>This article is not a medical diagnosis or a substitute for care from a qualified health professional.</span>
+    </aside>
+
+    <article class="article-reading">
+        <header class="article-reading-header">
+            <p class="article-category">{{ article.category }}</p>
+            <h1>{{ article.title }}</h1>
+            <p class="article-deck">{{ article.summary }}</p>
+            <p class="article-meta">
+                <span>By {{ article.author }}</span>
+                <time datetime="{{ article.date }}">{{ article.date }}</time>
+                <span>{{ article.read_time_minutes }} min read</span>
+            </p>
+            {% if article.category == "Survivor Stories" and article.consent %}
+                <p class="article-consent-label">Shared with permission</p>
+            {% elif article.category == "Survivor Stories" and article.placeholder %}
+                <p class="article-placeholder-label">Sample placeholder — not a personal story</p>
+            {% endif %}
+            {% if article.category == "Survivor Stories" %}
+                <p class="survivor-context">Each person’s experience is unique and is not typical for everyone.</p>
+            {% endif %}
+            <div class="article-share">
+                <button class="secondary-button" id="shareArticle" type="button" data-share-title="{{ article.title }}">Share article</button>
+                <label class="visually-hidden" for="articleShareUrl">Copy this article link</label>
+                <input id="articleShareUrl" class="article-share-url" type="url" readonly hidden>
+                <p id="shareStatus" role="status" aria-live="polite"></p>
+            </div>
+        </header>
+
+        <div class="article-body">
+            {% for section in article.content %}
+                <section>
+                    <h2>{{ section.heading }}</h2>
+                    {% for paragraph in section.paragraphs %}
+                        <p>{{ paragraph }}</p>
+                    {% endfor %}
+                    {% if section.get("items", []) %}
+                        <ul>
+                            {% for item in section.get("items", []) %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </section>
+            {% endfor %}
+
+            <section class="article-sources" aria-labelledby="articleSourcesTitle">
+                <h2 id="articleSourcesTitle">Sources</h2>
+                <ul>
+                    {% for source in article.sources %}
+                        <li>
+                            <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">
+                                {{ source.organization }} — {{ source.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <a class="primary-button article-screening-cta" href="{{ url_for('cancer_screening') }}">Go to the symptom screening tool</a>
+        </div>
+    </article>
+
+    <section class="related-articles" aria-labelledby="relatedArticlesTitle">
+        <h2 id="relatedArticlesTitle">Related Articles</h2>
+        {% if related_articles %}
+            <div class="article-grid">
+                {% for related in related_articles %}
+                    <article class="article-card">
+                        <p class="article-category">{{ related.category }}</p>
+                        <h3><a href="{{ url_for('article_detail', slug=related.slug) }}">{{ related.title }}</a></h3>
+                        <p class="article-summary">{{ related.summary }}</p>
+                        <a class="article-read-link" href="{{ url_for('article_detail', slug=related.slug) }}">Read article <span aria-hidden="true">→</span></a>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>More articles will be added to this collection.</p>
+        {% endif %}
+    </section>
+{% endblock %}

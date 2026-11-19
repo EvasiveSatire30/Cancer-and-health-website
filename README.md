@@ -107,6 +107,12 @@ The listed WHO sources provide general early-diagnosis context, not a Zimbabwe-s
 
 After a result, users can enter a Zimbabwe city to rank the currently listed facilities by approximate straight-line distance from that city's centre. City matching happens in the browser; it is not sent to the server or saved. The editable locations and fictional sample oncologist profiles are in `medical_facilities.json`. The facilities are real map-listed institutions, but this directory does not verify oncology services, availability, referrals, or opening hours. Sample oncologists are fictional placeholders and are not affiliated with any listed facility. Facility location data is attributed to [OpenStreetMap contributors](https://www.openstreetmap.org/copyright); distances are not driving distances. Users should contact a facility before travelling.
 
+## Articles
+
+The `/articles` page reads its entries from `articles.json`. Add each article's title, slug, category, summary, author, ISO-formatted date, sources, and content sections there; each content section can contain a heading, paragraphs, and optional list items. The site calculates read time from the article text and provides search, category filters, source links, related articles, and a link back to screening. Keep nutrition and prevention claims aligned with the cited sources and avoid presenting general information as individual medical advice.
+
+Survivor Stories entries must include a `consent` boolean. Only publish a real person's story when written permission has been obtained; set `consent` to `true` only for that approved story so the "Shared with permission" label is accurate. An unconsented article is hidden unless explicitly marked as a non-personal editorial `placeholder`. The included Survivor Stories entry is a consent-false placeholder, not a real person's account.
+
 ## Deploying on Render
 
 Create a Python Web Service from the `main` branch (not a Static Site). Use:

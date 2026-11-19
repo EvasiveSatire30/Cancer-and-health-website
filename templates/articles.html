@@ -1,0 +1,62 @@
+{% extends "articles_base.html" %}
+
+{% set page_title = "Health articles | CareGuide" %}
+{% set meta_description = "Read evidence-informed articles about cancer prevention, nutrition, warning signs, screening and survivor stories." %}
+
+{% block article_content %}
+    <header class="articles-heading">
+        <p class="eyebrow">CareGuide library</p>
+        <h1>Health articles</h1>
+        <p>Evidence-informed reading to support conversations with a qualified health professional. Articles are for education, not individual medical advice.</p>
+    </header>
+
+    <form class="article-filters" action="{{ url_for('articles_index') }}" method="get" role="search">
+        <div class="article-filter-field">
+            <label for="articleSearch">Search articles</label>
+            <input id="articleSearch" name="q" type="search" value="{{ search_query }}" placeholder="Try a topic or phrase">
+        </div>
+        <div class="article-filter-field">
+            <label for="articleCategory">Filter by category</label>
+            <select id="articleCategory" name="category">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                    <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="article-filter-actions">
+            <button class="primary-button" type="submit">Search and filter</button>
+            <a class="article-reset-link" href="{{ url_for('articles_index') }}">Clear filters</a>
+        </div>
+    </form>
+
+    <div class="article-results-heading">
+        <h2>Articles</h2>
+        <p role="status" aria-live="polite">{{ articles|length }} article{% if articles|length != 1 %}s{% endif %} found</p>
+    </div>
+
+    {% if articles %}
+        <div class="article-grid">
+            {% for article in articles %}
+                <article class="article-card">
+                    <p class="article-category">{{ article.category }}</p>
+                    <h3><a href="{{ url_for('article_detail', slug=article.slug) }}">{{ article.title }}</a></h3>
+                    <p class="article-summary">{{ article.summary }}</p>
+                    {% if article.category == "Survivor Stories" and article.placeholder %}
+                        <p class="article-placeholder-label">Sample placeholder — not a personal story</p>
+                    {% elif article.category == "Survivor Stories" and article.consent %}
+                        <p class="article-consent-label">Shared with permission</p>
+                    {% endif %}
+                    <p class="article-meta">
+                        <span>By {{ article.author }}</span>
+                        <time datetime="{{ article.date }}">{{ article.date }}</time>
+                        <span>{{ article.read_time_minutes }} min read</span>
+                    </p>
+                    <a class="article-read-link" href="{{ url_for('article_detail', slug=article.slug) }}">Read article <span aria-hidden="true">→</span></a>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="article-empty" role="status">No articles match those filters. Try a different search or clear the filters.</p>
+    {% endif %}
+{% endblock %}

@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from flask import Flask, render_template, request, jsonify, make_response
+from flask import Flask, abort, render_template, request, jsonify, make_response
 
 from cancer_screening import SCREENING_RULES, build_screening_result
 from chat import get_response
@@ -13,9 +13,108 @@ FACILITY_DIRECTORY_PATH = Path(__file__).resolve().parent / "medical_facilities.
 with FACILITY_DIRECTORY_PATH.open(encoding="utf-8") as directory_file:
     FACILITY_DIRECTORY = json.load(directory_file)
 
+ARTICLE_DATA_PATH = Path(__file__).resolve().parent / "articles.json"
+with ARTICLE_DATA_PATH.open(encoding="utf-8") as articles_file:
+    ARTICLE_DATA = json.load(articles_file)
+
+ARTICLE_CATEGORIES = (
+    "Prevention and Lifestyle",
+    "Foods and Nutrition",
+    "Warning Signs",
+    "Screening and Check-ups",
+    "Survivor Stories",
+)
+
+
+def _article_text(article):
+    content = []
+    for section in article["content"]:
+        content.extend(section.get("paragraphs", []))
+        content.extend(section.get("items", []))
+    return " ".join(content)
+
+
+def _article_read_time(article):
+    words = len(_article_text(article).split())
+    return max(1, (words + 199) // 200)
+
+
+def _visible_articles():
+    return [
+        dict(article, read_time_minutes=_article_read_time(article))
+        for article in ARTICLE_DATA
+        if article["category"] != "Survivor Stories"
+        or article.get("consent") is True
+        or article.get("placeholder") is True
+    ]
+
+
+def _article_search_text(article):
+    return " ".join(
+        (
+            article["title"],
+            article["summary"],
+            article["category"],
+            _article_text(article),
+        )
+    ).casefold()
+
+
 @app.get("/")
 def index_get():
     return render_template("base.html")
+
+
+@app.get("/articles")
+def articles_index():
+    query = request.args.get("q", "").strip()[:100]
+    category = request.args.get("category", "").strip()
+    if category and category not in ARTICLE_CATEGORIES:
+        abort(404)
+
+    articles = _visible_articles()
+    if category:
+        articles = [article for article in articles if article["category"] == category]
+    if query:
+        normalized_query = query.casefold()
+        articles = [
+            article
+            for article in articles
+            if normalized_query in _article_search_text(article)
+        ]
+
+    return render_template(
+        "articles.html",
+        articles=articles,
+        categories=ARTICLE_CATEGORIES,
+        search_query=query,
+        selected_category=category,
+    )
+
+
+@app.get("/articles/<slug>")
+def article_detail(slug):
+    articles = _visible_articles()
+    article = next((item for item in articles if item["slug"] == slug), None)
+    if article is None:
+        abort(404)
+
+    related_articles = [
+        item for item in articles if item["slug"] != article["slug"]
+    ]
+    related_articles.sort(
+        key=lambda item: (
+            item["category"] != article["category"],
+            item["title"].casefold(),
+        )
+    )
+
+    return render_template(
+        "article_detail.html",
+        article=article,
+        related_articles=related_articles[:3],
+    )
+
 
 @app.get("/screening")
 def cancer_screening():
